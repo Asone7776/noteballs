@@ -12,7 +12,7 @@
                     ></textarea>
                 </div>
             </div>
-            <div class="field is-grouped is-grouped-light">
+            <div class="field is-grouped is-grouped-light is-justify-content-end">
                 <div class="control">
                     <button @click="submitHandler" class="button is-link has-background-success" :disabled="!modelValue">{{ buttonText }}</button>
                 </div>
