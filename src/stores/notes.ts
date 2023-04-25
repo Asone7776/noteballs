@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { ref,onMounted, watch } from "vue";
 import { defineStore, acceptHMRUpdate } from "pinia";
 import type { Notes, Note } from "@/types/notes";
 
@@ -34,6 +34,17 @@ export const useNotesStore = defineStore("notes", () => {
     });
   }
 
+  watch(notes, ()=>{
+    localStorage.setItem('notes',JSON.stringify(notes.value));
+  },{deep:true});
+
+  
+  onMounted(()=>{
+    const localNotes = localStorage.getItem('notes');
+    if(localNotes){
+      notes.value = JSON.parse(localNotes);
+    }
+  });
   return {
     notes,
     addNote,
