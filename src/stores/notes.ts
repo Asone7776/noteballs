@@ -1,4 +1,4 @@
-import { ref,onMounted, watch } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 import { defineStore, acceptHMRUpdate } from "pinia";
 import type { Notes, Note } from "@/types/notes";
 
@@ -18,30 +18,37 @@ export const useNotesStore = defineStore("notes", () => {
     notes.value = notes.value.filter((item) => item.id !== idToDelete);
   };
 
-  const setSingleNote = (note: Note)=>{
+  const setSingleNote = (note: Note) => {
     singleNote.value = note;
-  }
-  const resetSingleNote = ()=>{
+  };
+  const resetSingleNote = () => {
     singleNote.value = null;
-  }
+  };
 
-  const updateNote = (id:number,content:string)=>{
-    notes.value = notes.value.map(item=>{
-       if (item.id === id){
+  const updateNote = (id: number, content: string) => {
+    notes.value = notes.value.map((item) => {
+      if (item.id === id) {
         item.content = content;
-       }
+      }
       return item;
     });
-  }
+  };
 
-  watch(notes, ()=>{
-    localStorage.setItem('notes',JSON.stringify(notes.value));
-  },{deep:true});
+  const getAllCharactersLength = computed(()=>{
+    return notes.value.reduce((accumulator, currentValue)=> accumulator + currentValue.content.length,0);
+  });
 
-  
-  onMounted(()=>{
-    const localNotes = localStorage.getItem('notes');
-    if(localNotes){
+  watch(
+    notes,
+    () => {
+      localStorage.setItem("notes", JSON.stringify(notes.value));
+    },
+    { deep: true }
+  );
+
+  onMounted(() => {
+    const localNotes = localStorage.getItem("notes");
+    if (localNotes) {
       notes.value = JSON.parse(localNotes);
     }
   });
@@ -52,7 +59,8 @@ export const useNotesStore = defineStore("notes", () => {
     singleNote,
     setSingleNote,
     resetSingleNote,
-    updateNote
+    updateNote,
+    getAllCharactersLength
   };
 });
 
