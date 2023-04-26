@@ -34,8 +34,11 @@ export const useNotesStore = defineStore("notes", () => {
     });
   };
 
-  const getAllCharactersLength = computed(()=>{
-    return notes.value.reduce((accumulator, currentValue)=> accumulator + currentValue.content.length,0);
+  const getAllCharactersLength = computed(() => {
+    return notes.value.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.content.length,
+      0
+    );
   });
 
   watch(
@@ -60,7 +63,7 @@ export const useNotesStore = defineStore("notes", () => {
     setSingleNote,
     resetSingleNote,
     updateNote,
-    getAllCharactersLength
+    getAllCharactersLength,
   };
 });
 

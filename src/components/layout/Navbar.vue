@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar is-success" role="navigation" aria-label="main navigation">
+  <nav class="navbar is-success" role="navigation" aria-label="main navigation" ref="outside">
     <div class="container is-max-desktop px-2">
       <div class="navbar-brand d-flex">
         <div class="navbar-item has-text-weight-bold is-size-4">
@@ -29,7 +29,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { onClickOutside } from '@vueuse/core'
 
+const outside = ref(null);
+onClickOutside(outside,()=>{
+  isMenuShown.value = false;  
+})
 const isMenuShown = ref<Boolean>(false);
 
 const toggleMenu = () => {
